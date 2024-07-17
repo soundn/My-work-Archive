@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: react-deployment
+  namespace: fullstack
+  labels:
+    app: react
+spec:
+  selector:
+    matchLabels:
+      app: react
+  replicas: 5
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        app: react
+    spec:
+      containers:
+      - name: reactapp-container
+        image: gerrome/computext-react
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: react-service
+  namespace: fullstack
+  labels:
+    app: react
+spec:
+  type: ClusterIP
+  selector:
+    app: react
+  ports:
+    - protocol: TCP
+      name: web
+      port: 80
+      targetPort: 80

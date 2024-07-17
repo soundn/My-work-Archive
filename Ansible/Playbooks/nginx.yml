@@ -1,0 +1,21 @@
+---
+- name: INSTALLING NGINX
+  hosts : [slave1]
+  become: True
+
+  tasks:
+  - name: GET UPDATES #sudo apt update
+    apt:
+      update_cache: yes 
+
+  - name: INSTALLING NGINX #sudo apt install nginx
+    apt:
+     name: nginx
+     state: latest
+
+  - name: START SERVICES #sudo systemctl restart nginx
+    service:
+      name: nginx
+      state: restarted
+      enabled: yes    #sudo systemctl enable nginx
+

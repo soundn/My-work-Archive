@@ -1,0 +1,33 @@
+## Create two virtual machines, one called master-node and the other called slave-node.
+
+# Install ansible on master node
+sudo apt-add-repository ppa:ansible/ansible
+sudo apt update
+sudo apt install ansible
+
+# Setup your inventory
+sudo nano /etc/ansible/hosts
+
+    ### input the values below
+[slave1]
+ipaddress ansible_ssh_user=ubuntu ansible_ssh_private_key_file=/home/ubuntu/key.pem
+[slave2]
+ipaddress ansible_ssh_user=ubuntu ansible_ssh_private_key_file=/home/ubuntu/key.pem
+    ###
+
+# Copy the content of slave node's private key from your local machine (Downloads folder of your windows or mac) to the master node
+
+# Create the key you specified in your inventory (/etc/ansible/hosts) and paste the content of the key and save
+nano key.pem
+
+# Protect the key
+chmod 400 key.pem
+
+# Test connection
+ansible slave1 -m ping
+
+
+### CENTOS
+
+sudo yum update -y
+sudo yum install ansible -y
